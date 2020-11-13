@@ -1,4 +1,5 @@
 from os import system
+from os import mkdir
 import json
 import datetime
 import time
@@ -17,28 +18,47 @@ userData = {}
 
 def loadItemObj():
   global itemObj
-  with open('storage/projectGalleryData01.json', 'r') as document:
+  with open('inventoryProject/projectGalleryData01.json', 'r') as document:
     itemObj = json.load(document)
-
-
-def saveItemObj():
-  global itemObj
-  with open('storage/projectGalleryData01.json', 'w') as document:
-    json.dump(itemObj, document)
 
 
 def loadUserData():
   global userData
-  with open('storage/projectGalleryUsernames01.json', 'r') as document:
+  with open('inventoryProject/projectGalleryUsernames01.json', 'r') as document:
     userData = json.load(document)
+
+
+def saveItemObj():
+  global itemObj
+  with open('inventoryProject/projectGalleryData01.json', 'w') as document:
+    json.dump(itemObj, document)
 
 
 def saveUserData():
   global itemObj, userData
   for item in itemObj:
     userLoader(item)
-  with open('storage/projectGalleryUsernames01.json', 'w') as document:
+  with open('inventoryProject/projectGalleryUsernames01.json', 'w') as document:
     json.dump(userData, document)
+
+
+def defaultUserData():
+  defaultUser = {
+    "Poopoo": {
+      "password": "1234", 
+      "wallet": 246.0, 
+      "history": ["eternal pain", "Sold a painting at 2020-11-06 17:02:12.651475", "Sold a painting at 2020-11-06 21:22:33.114185"], 
+      "item": {
+        "Tyler1": {
+          "total": 8, 
+          "time of purchase": ["Fri Nov  6 21:21:57 2020", "Fri Nov  6 21:22:07 2020"]
+        }  
+      }
+    }
+  }
+  with open('inventoryProject/projectGalleryUsernames01.json', 'w') as document:
+    json.dump(defaultUser, document)
+  
 
 
 itemObj = {
@@ -364,6 +384,97 @@ DD?:~+~I8888ZI?I=~~?87=~~~~~~~~~~~~~=7III+???7$$$ZOOO8DDDDZ$D::::::::::::::~~~~~
 8887:NNNDMNNNNNNNNNNNNNDNNNNNNNNM8,$O$DZ?D$ODD$=,INNNNI7ZDNNNNMNMNMMMMNNNNNNNNNN
 8888ONNNNMNNNNNNNNNNNDNNNNNNNNNNM7,8$+7ZOD78888=:NNNMN+++?NNNNNNNMMMMNNNNNNNNMNM
     """
+  },
+  "Honi" : {
+    "total" : 20,
+    "cost" : 20,
+    "distribution date" : [2020, 11, 7, 12, 59, 59],
+    "label" : """
+    O8DNDMODDDZIIDMN8OZ$$I?+====?+I7$ZOOOOO$$7I?++.~==..?$OOZ$77?+?+.~===..=+7??.,=,=?++?.,,?+?:+++++++Z
+ZO88DNN8ZDD7IDMDO$7I?=~:::::~=,,?I$$ZZ77II?+=+.++?+.:$ZNZZ$7???++=++===++,??..OZ.?+++.N,+++++++++++Z
+ZZZO88DDNODM7DNDO$I+=~~:::,,:~=+:+I7?I?I?+++==+????+:IZONZZ$Z???++.~=+++++?+. ?:.?+=.+.,++++$++++++Z
+ZZZZOO8D8NDDMND8Z7I?=~:::::::~~=+?=?,I+?++++=++??,+++?ZZDDZZ$Z??+~.==+++7++,Z.M.M,++.O+,.+++.++++++Z
+ZZZZZOO888NM8MDDZ7??+~:~:~~~~~==++?+??~:===+?????.+.+.IOONDZZ$7++...,=++~=+.8,,.O.=.N$~,:===:++++++Z
+$$ZZZZZO88DDM88OZI??++=~,.===+=++?+????=~?+~IIIIII??.=7O8DM8ZZZ+++=~.~=+,===,...,==, .7,.~===++++++Z
+7777Z$$ZOO88DNNO$77II+=:...~=+???IIIII7II+=~~=$7$$$7.7ZONDDM8ZZZ?+=,.~==~~~.IDO77 ~~~.,,~~~~~?+++++Z
+I7$$ZZZZZZO888D8$7II?+=.:=:.==??7$$7$ZO$Z$I~=:+I8OOZZZO88N8DM8ZZ$+=,,~~=~~:.MNI7O.:::.8,:::~.?==+++Z
+N$ZZZZZZ$$ZZZZZO$II?I+,.===~,.=I7ZZZODDD8+$==?==IM8888888DN88M8Z$?+:~~~=,,,.$D,,7.,,,.8.,::::++=+++Z
+78ZZZZZ$$$$$$$$$$7????=.+++++=??$ZO8DDMDO=$==??~+7D8888888DD88MO$I,~~:~~,,...:O.. ....8.,,:,.==++++Z
+=$Z$$$$$$$7IIIIII7?+????++:+,+.I$O88DNN7~~7==??+~I8DND88888NDD8D$?.~.,:.,,...~..7,......,,,,,===+++Z
+=+NZZ$$$$77I?++++????III?+.=.+.I$+ZNDN=~~=I~~?O?~?$:~~7DND8DN888OI~=:~.~,,..ZM=.M.........,,.===+++Z
+++?8Z$$777I+==~===+??IIII??++?:7=O,DZ:~~=O?++I7I??7D::::~~IDNN88O$7?=:~=....D=M...........,,====+++$
+===DZ$$7II?+=~~~~~=?II777III7777I7~+~,:::$???7O$77$Z=O:::~~:~?NNOZ$$I=~~$....,...........,,+~===+++$
+=~~~N$II++==~~::~~=?II7$$$$$$$$7I7=7:,+IZZZ$$OZOZOZ+====?$::I~~~?8O$7I?~:I.. .~O$........,...~~===+Z
+~~~:87I?=:~~~:::~==+II7$$$$$$Z$?=~::$:ZZZZ$,:::::=:+,::~~~:Z,:::::+OZ$I+:::.....N. .....,..~=.=====$
+:::~:ZI+~~,....:~==+I$7$Z$7==I7:::~N+=+~::::::::::8,7::::::,:~:~:::,=O$I+::,+...........+.====.====Z
+:::~:$I+~:.,::,..=+?I$ZZZO$7O+:::Z~Z:::::::::::::::Z,7::::::O:I~:::::I7ZI?:,,,I.......:~~===~=~====Z
+::~~:I7?~,.::::~~=+?I$Z$$77O~~::$~:::::::::::::::::~,,~~:::::,:~::::::7?Z7?~::::,=OZ?::~==~,=~~~~==$
+~~~~~~87+~.~~:~~==?II7Z77OZ~:::Z:::::::::::::::::::~Z::,+:::::?,:::~~~~7$8$?=::=:::~~~~===~,~.~.===$
+~~====$O7?~~~.~.=.?I7$ODD$~~::::::~:::::::::::::::::::::::::::::$=+====~+IO$7I::~:~~~~======~~,~===$
+==++??OD8Z7?+.===.?I7$OOO~=~::::::::,,::::::::::::::::::::::::~~=??+++,+=,NOO7I~:~~~~~====.~~~~~===$
++????IZM8ZO$I?+??II7$ZOO8~Z:::::::::~=~~::::::::::::::::::::~~~==O?++++==I,N=8$I?~~~~===~~.~~.~~~==$
+IIIIINN8O88O$II???I$ZZO8+~Z~~~~~~~~~::=~~::::::::::::::::::~~~==O+++++=+=7,,=8D$$7=~~~~~~~.~:.~~~=~$
+778MMMMOON8O$?.+=.I$ZOO87=Z~~~~~~=~~~~~I+:::::::::~::~::::~~~===+++++++++=~ZDO=DO$Z~~~~~~~:~~~~~~~~$
+OOOZOO8ODD88ZI.,~.I$ZOOD88~~~~$,?=~=~~~~,=~:~:::~~~~=::::==:~===+?+$7+II?=:~N7,7MO$Z~~~~~~:~::~~~~~$
+OZZOOOOON8D8O$:.+~7$ZOO8N7:=~=+,=++~=~+~=.~~~~~~~=~=:~~~==~~=~=+=Z:D8,I,::,..,.8DMO$$~~~:~~~~~~~~~~$
+DOZO8888N8N88O$?II,$ZO88N::=++=+=+=+=+==~~~~==~~~~+:~~===~~~=~====7,,7.......=DDDDNZ$$?~~:~~~~~~~~~$
+DDOOZ88O88D888Z?77$$OOO8D~==+=+++++=?+=+=$~I==~~~+:=~====~~=~===++$+:.........ZDDDND$$$?+I~:~::::~~$
+OOD8OZ8888DD888OZZOOOO888?Z==++=?+=+?=++=O=:?==~=:=~~===~==~++~==~~,...........DDDDN8$77?+=7+::::~:$
+D8OO8DM8888DDDD88O8OOOOOO8D=Z?+?=++?=++++Z+=:+~+~=~~=+=~~=~=+~~~=~:,............DDDDMZZ77+~~==I:~~~$
+NNMMN8MN8D8DDDDD888OOOOOODD==~?++=?+++=++=:?~7=~=~~~+~~~+~==~~~~~~:,,.?0/??......8DDDNZ$$I+=:~=+O:~$
+N?~=:?MMD888D8DD88OOOOOOO8I=+Z++=?+~:=?7?+:==:==~~~=~~~+=~=~=~~=~~:+?O0O%OOO?...,:MMDDDZ$7+I777++~~$
+ODN=~,MMDD88DDDD88OOOOO8ON8~=+==+++=::$?=Z$~.:=:~:=~~~=~~=~==~~~~~::~MIM=NZ,D,,,,DNNNDNO$$?+$$?~I~~7
+OOODM:ZMDDDDDD8D88OOOOOOOMD?~====,8M?:,,.,.?.,,::~:~==~~=====~~~~~::::,D7OMNMD$MMMN~~8DNZ$$++$+~,?I7
+OOOO8N8DD8DDDDDDDD8OOOOOOM,~~:,,N,=:,.,.........::~~=~~=~~~=~~~~::::::~O,:,I+7Z+:::::=ZNMZ$7+?+~,NI7
+OOOOOODND8DD8DDZDD8OOOOO887,~?:?................,=,+=~~~~~+~~~::::::::::,:~=$I,:::::::??NN$$?++=:+?N
+OOOOOON+ZDDDDD++OD8OOOO888M=:,,,................,I:I:::::~,~::::::::::::::,:::::::::::::?MZ77+++=~OO
+OOOOO8++IDDDD~~~ZNDOO8O888M?7,..... ........OOOO,D7,::::::7:.+:::::::::,,,,,:::::::,:,:M,ID$D?++?=,N
+8OOOO~~~8NDD:..,:ND888O888ND7.............OOOOOO8ZZ,:::::::~:?:,::::,:,,,,,,,,,,,,,,=7,,+,$O$I++?==7
+O88O,,,+:DDI:..=,MD8888888DMN8...........OOOO??MM7:,D:::::::::~:::,,,,,,,,,,,,,,,,,D,,,,,,:887+++I:$
+888I,,D:ID8:,,,,:DDO8888888MN,..........OOONZNMM,,,Z,:::::::::,,,,,,,,,,,,,,,,,,,,8....,,?,:N$?+++?$
+D8,,,,,:ODD,,,,,788OO88888MMMM8.........OO,MMM~,,N:,:::::::::,,:,,,,,,,,,,,,,,,,,,~.....,,,,IZ7?++?$
+8~,..,:8DDD,,..,ODD8O8888D=~MMMMN7=,,~$MNMMN:,,N,,:::,,,,,,,,,,,,,,,,,,,,,,,.,,.,O......,,+,:8$?++?Z
+M:,..,88D8D,...,Z8DDOO8887~::I:NMMMMMMNO::,87,,,,,,,,,,,,,,,,,,,,,,,,,,,......,D........,,,,,$$?++=O
+D:,.,,D8D8N,...,I8D8OZOD87,,.??,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,......,,=N,........,,,.,+$+=+=Z
+D:..,:8888N,...,?88NOZZ8OO~,..D:O,,,,,,,,,,,,,,,,,,,,,,,,,,,,..............,:8M..........,,I,~8I+==Z
+O,..,~ZDD8D....,~888O$$Z8O,,...M:+,,,...,....,,,.,..................,......Z,N,..........,,:,=O$7++O
+I,..:+Z8888,::::,M8DOZ$$ZZN,....7=::8:.......,..:$...,.,.....,.,,:~::+,.....7Z,........,.,,,,+O$$?+Z
+~...:?O8888~~~~~:?88OZ$7$ZON,,,::?8,,,,................:Z.D.~..7M?,::,+.....NO........,,,,,,,$O$$I+Z
+~,.,~I88888Z~~~~~:DD8Z$77$ZZI:~==~7+,,,...................,.......O?,?.......~.......,,.,,,,,ZO$77+Z
+~::~=$888888:~~~~~O8DZ$$77$$N:~===?=,,,,,...........................?,?7,....8......,,,,,,,,,~O$$7?Z
+:~~==Z888888$~~::::ZDO$$77$ZZ:~~~~~=7,,,,,...........................,.O,...,......,,,,,,,,,:=$$$$?Z
+~~~===OO8888N~:::::~Z8$7777$$=:~~~:Z,,,,,,,,,,,........................,.......,...,+~,,,,,,7?$$$$IZ
+$~~===+$OO88O,::,:::~ZZ$77777+:::::I,I.,,,,,,,.........................,,..........,=,=,,,,:=ZZ$$Z7Z
+=N~~===+$OOO8+,,,,,::=8Z7777Z=~:::,:,,D,,,,,,,,,,,..............................,,,,.,.,,,::=ZZ$$O7O
+=8O~~~~=+ZOZZ8,,,,,,,:~8788ND=~::::=~,,=,.,,,,,,..,,,...,,,,........,,,.,,,,,,,,,,,,,,,,,,:D7OZZZ8$8
+==Z+~~~~=+8OZ8:,,,,,,,:::====::,::::7Z::,,,,,,,,,,...,,,,,,,,,,,.....,.,,,..,,,,,,,,,,,,,,,~Z8OZZDZO
+===7::~:~~+DZN=:,,,,,...M......,,::$$Z==,:,,,,,,,,,.,,,,,,,,,,,,...,,,,,,,,,,.,,,,,,,,,,,:O?Z8OZO8O7
+===~N:::,:~=7?Z=:.....7MM=.,88.,,::N$$O~::,,,,,,,,,.,,,,,,,,,,,,,...,,,,,,,,,,,,,,,,,,,,:~~$ZDOZ88Z7
+==~~:O:,,.,:~~~+~,......NM+O$..,,:~O$$$8:,:8.,,,,,,,,,,,,,,.,,,,,,,...,,,,,,,,,,,,,,,,,,:+7ZONOO8D,7
+~~:::~:,....,,,.?,....ONM.~?Z..,,:+7$$$Z8~?,M,,,,,,,,,,,~,,,,,,,,,,,,,,,,,,,,,,,,,,,,,::I=$O88OO8I,7
+:::,,,~,........,:.............,,:D7$$$$ZD7,,NI,,,,,,,,~.,.,,,,,,,,,,,,,,,,,,,,,,,,,,:::~$ZODOOOD,,7
+:8:,,,,,:,........,............,,:N7$$$$$ODZ:7+,,,::,,,,,,7,,,,,,,,,,,,,,,,,,,,,,:,::::Z$ZO8OOOO=,:$
+:~Z:,,,,.................Z7....,,:Z$$$Z$$$ON8Z:I+=:::,,,,,,.,,,,,,,,,,,,,,,,,,,,::::::$$ZZO8OOOZ:~~Z
+==~O,.,........................,,I$$$$$O$$ZZNDZ7:D:$~::::,,,=,,,,,,,,,,,,,,,,:::::::~~7ZZOOOOZ8?++?O
+DI=~Z,...................7?.....,DOZZZZZDOZ$ZDN8OZZ~ZZ::::::::,,,,,,,,,,,:::::::::::~$ZZOOOOO8II77I8
+DD$=:7,.........................:NO8OOZZO88ZZZDD8O8O=::8~:::::::::::::::::::::::::~~OZZOOZZO8::+?7,I
+DDDO=~?.....,............~~....,:NO8DOOOO88D8OO8DD888DZ:Z:Z=:::::::::::::::::::::~+8ZZOZOZOZ=+I7...I
+DDDD?=~+....~..................,:MOO8888O888888OO88888888O7:~:N::::::::::::::::~~78OOZZZZOMNM7.....I
+DDDNDI~:~.....,.............:,.,=NOO88D888888888OOO88888OOO8OOZ=::=$~::::::~~~~7ZZZZZZZZNDI,,,,...~Z
+DDNNNDO~~:,.=.=..........M=.Z,,,I8N8888888888O888OOOO8OOOOOOOOOOOOZZZ7?+=?7??7OOOZZZZO8I~~::,,,:?+ZM
+DDNNNNDN+~:,7.I............$,.,:ND8DND88888OOOOOOOOOOOOOOOOOOOOOOOZZZZ$ZZ$$I$$8ZZZZZ8MO~==~==+7DM8OD
+DDNNNNNDO?=~::,,,,..,.....N..,:=NDNDDDND88OOOOOOOOZOOOOZZZZZOOOOOOZZ$.7$$7~I.ZOZZO8NO888MMMMM8O8OOOD
+DDNNNNND8MI+~~::,,,,,,,.....,::NDDNNNDDDD88OOOOOZZ~$ZZZ$I.Z$ZZZZZZ$7.=$777:+.ZZODNN8888888888888OOOD
+DDDDNDD8MNNI+=~~::::,.Z?MM.8,:=DDNNNNNDD8888OOOZZ$~$$$$?.I.7$$IZ$Z$$.,..~7.,778ZIINMDO88888888O8OOOD
+OOOOO8OO8D8~D+=~~~~::,.?:..N8,$ODNNNNNDDD88OOOOOZ$:7=~7=.I.77?,~$$$=.II7$77:.=:++=+=OOOO8888888888OD
+ZZZZZZOZZ$8~::$?++=~~,.8...$?,$ZDNNNNDDDDD88OOOOZ$=..=I+..?7$II,I$$$....OZ?.=?.++,.~=.:888888888888D
+$$$$$$$7$$7Z::,..7I?=:.N..N.~7~88DNNNNDDDDDD888OOZ$,77777$ZZZZZ.$$ZZZO$====++=.++....:=ZMDDD8888888D
+7777777,,7II7,,....,I=:.+=.,~~IN$Z8DDNNNNNNNNDDD8OZ=:IZZZOOOOOZZODD?~~~=~~~==+~===+~+==~~ZMDDDDD888N
+D.III?.DM+,????,............,~$8NI??II$O8DDNNNNDDD888OOO888OZ$?~~~~~~~~~~~~=~=~~~~~~~~~~~~~IM8DDDDDN
+?+??+.:88+.+=++++I.......=..~~:$8M:~=~~===+II77$7777I??==~~:~~~~~~~~7==~7~~~~~~~~~~~~~~~~~~~:NN8DDDN
+:,+==.M,D7.======OOO87,,.,+. 7.ZDNN==+~+~~~~:~~~~~~~~~~~~~~=:~~~~~~=~~~=~~~~~~~~~~~~~~~~~~~::::M88DN
+..===~....:=~~~~~OOOZ$7?.=$~?7Z8DNN=~~=~~~~~=~~:~~~~~~~~~~~~~~~~~~===~~~~~~~~~~~~~~~~~~:::::::::=MDN
+""" 
   }
 }
 
@@ -547,7 +658,7 @@ def sellItem():
         itemCost *= -1
     except:
       print("Invalid number!")
-      print("Will only sell one instead")
+      print("Will only sell as one dollar instead")
       itemCost = 1
     itemLabel = input("Painting preview: ")
     itemObj[itemName] = {}
@@ -711,8 +822,26 @@ print("Now tell me what you're here for")
 time.sleep(1.5)
 
 
-loadItemObj()
-loadUserData()
+try:
+  mkdir("./inventoryProject")
+except:
+  pass
+
+
+try:
+  loadItemObj()
+except:
+  saveItemObj()
+  loadItemObj()
+
+
+try:
+  loadUserData()
+except:
+  defaultUserData()
+  loadUserData()
+
+
 while not role:
   while not currName:
     currName = input("Input username: ").lower().title()
